@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import tasks from './sample/task.json';
 
 // impor components
 import Tasks from './components/Tasks';
 import TaskForm from './components/TaskForm';
+import Post from './components/Post'
 class App extends Component {
 
   state = {
@@ -39,10 +40,27 @@ class App extends Component {
       tasks: newTasks
     })
   }
+  containerTask(){
+    return {
+    textAlign: '-webkit-center'
+  }
+  }
   render() {
     return <div>
-      <TaskForm addTask={this.addTask} />
-      <Tasks tasks={ this.state.tasks } deleteTask={this.deleteTask} checkDone={this.checkDone} />
+      <Router>
+      <Link to="/">home</Link>
+      <br/>
+      <Link to="/post">Post</Link>
+
+      <Route exact path="/" render={() => {
+        return <div  style={ this.containerTask() }>
+          <TaskForm addTask={this.addTask} />
+          <Tasks tasks={ this.state.tasks } deleteTask={this.deleteTask} checkDone={this.checkDone} />
+        </div>
+    }}>
+    </Route>
+    <Route path="/post" component={Post} />
+      </Router>
     </div>
 
   }
